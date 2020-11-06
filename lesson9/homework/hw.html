@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ajax</title>
+<style>
+.divBlock {
+	background: linear-gradient(blue 50%, yellow 50%);
+	width: 170px;
+	height: 300px;
+	padding: 10px;
+	float: right;
+	margin-top: -338px;
+}
+
+.divBlock input {
+	margin: 5px;
+}
+
+#golovnu {
+	width: 450px;
+	height: 330px;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	margin-left: -225px;
+	margin-top: -165px;
+}
+
+#one {
+	float: none;
+	margin-top: 0px;
+}
+</style>
+</head>
+<body>
+	<div id="golovnu">
+	<p id="message"></p>
+		<div class="divBlock" id="one">
+			<h3>Send by GET</h3>
+			<form action="/" method="get" id="form">
+				<label>firstName<br> <input type="text" id="userNameGet"></label><br>
+				<label>secondName<br> <input type="text" id="userSNameGet"></label><br>
+				<label>age<br> <input type="number" id="userAgeGet"></label><br>
+				<label>residence<br> <input type="text" id="userResidenceGet"></label><br>
+				<input type="button"value="Send by Get" onclick="sendDataByGetMethod()">
+			</form>
+		</div>
+		<br>
+		<div class="divBlock">
+			<h3>Send by POST</h3>
+			<form>
+				<label>firstName<br> <input type="text" id="userNamePost"></label><br>
+				<label>secondName<br> <input type="text" id="userSNamePost"></label><br>
+				<label>age<br> <input type="number" id="userAgePost"></label><br>
+				<label>residence<br> <input type="text"id="userResidencePost"></label><br>
+				<input type="button" value="Send by Post" onclick="sendDataByPostMethod()">
+			</form>
+		</div>
+	</div>
+	
+	<script>
+	function sendDataByGetMethod(){
+		let userData = {
+				userName:document.getElementById('userNameGet').value,
+				userSName:document.getElementById('userSNameGet').value,
+				userAge:document.getElementById('userAgeGet').value,
+				userResidence:document.getElementById('userResidenceGet').value
+		};
+		
+		let name = document.getElementById('userNameGet').value;
+		let sName = document.getElementById('userSNameGet').value;
+		let residence = document.getElementById('userResidenceGet').value;
+		let age = document.getElementById('userAgeGet').value;
+		
+		if( age < 1 || age > 100){
+			throw 'Wrong Age';
+		}
+		if(name == null || name.length <= 1){
+			throw'Wrong Name';
+		}
+		if(sName == null || name.length <= 1){
+			throw'Wrong Name';
+		}
+		if(residence == null || name.length <= 1){
+			throw'not valid';
+		}
+		
+		
+		
+		let xhr = new XMLHttpRequest();
+		xhr.open("Get","/userGet?userName=" + userData.userName
+				+"&userSNameGet="+userData.userSName
+				+"&userAge="+userData.userAge
+				+"&userResidenceGet="+userData.userResidence);
+		
+		xhr.setRequestHeader("Content-type","application/json");
+		xhr.send();
+	}
+
+	function sendDataByPostMethod(){
+		let userData = {
+				userName:document.getElementById('userNamePost').value,
+				userSName:document.getElementById('userSNamePost').value,
+				userAge:document.getElementById('userAgePost').value, 
+				userResidents:document.getElementById('userResidencePost').value
+		};
+		
+		let xhr = new XMLHttpRequest();
+		xhr.open("Post","/userPost");
+		xhr.setRequestHeader("Content-type","application/json");
+		xhr.send(JSON.stringify(userData));
+	}
+	</script>
+</body>
+</html>
